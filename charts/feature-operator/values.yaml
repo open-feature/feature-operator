@@ -1,0 +1,6 @@
+image: ghcr.io/open-feature/feature-operator:latest
+
+serviceAccount:
+  create: true                               # Enables the service account creation
+  annotations: {}                            # Annotations to add to the service account
+  name: ""                                   # The name of the service account to use.
