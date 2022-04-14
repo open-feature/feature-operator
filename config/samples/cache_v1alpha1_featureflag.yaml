@@ -1,0 +1,6 @@
+apiVersion: cache.openfeature.dev/v1alpha1
+kind: FeatureFlag
+metadata:
+  name: featureflag-sample
+spec:
+  # TODO(user): Add fields here

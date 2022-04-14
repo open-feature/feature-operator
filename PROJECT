@@ -1,0 +1,19 @@
+domain: openfeature.dev
+layout:
+- go.kubebuilder.io/v3
+plugins:
+  manifests.sdk.operatorframework.io/v2: {}
+  scorecard.sdk.operatorframework.io/v2: {}
+projectName: kubernetes-operator
+repo: github.com/open-feature/feature-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: openfeature.dev
+  group: cache
+  kind: FeatureFlag
+  path: github.com/open-feature/feature-operator/api/v1alpha1
+  version: v1alpha1
+version: "3"
