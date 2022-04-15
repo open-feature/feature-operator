@@ -1,0 +1,6 @@
+apiVersion: cache.openfeature.dev/v1alpha1
+kind: OpenFeature
+metadata:
+  name: openfeature-sample
+spec:
+  # TODO(user): Add fields here

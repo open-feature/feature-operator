@@ -11,9 +11,27 @@ resources:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: openfeature.dev
-  group: cache
+  domain: dev
+  group: openfeature
   kind: FeatureFlag
+  path: github.com/open-feature/feature-operator/api/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: dev
+  group: openfeature
+  kind: FeatureFlagRules
+  path: github.com/open-feature/feature-operator/api/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: dev
+  group: openfeature
+  kind: OpenFeature
   path: github.com/open-feature/feature-operator/api/v1alpha1
   version: v1alpha1
 version: "3"

@@ -1,0 +1,20 @@
+# permissions for end users to view openfeatures.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: openfeature-viewer-role
+rules:
+- apiGroups:
+  - cache.openfeature.dev
+  resources:
+  - openfeatures
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - cache.openfeature.dev
+  resources:
+  - openfeatures/status
+  verbs:
+  - get

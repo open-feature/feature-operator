@@ -8,6 +8,32 @@ rules:
 - apiGroups:
   - cache.openfeature.dev
   resources:
+  - featureflagrules
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cache.openfeature.dev
+  resources:
+  - featureflagrules/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - cache.openfeature.dev
+  resources:
+  - featureflagrules/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cache.openfeature.dev
+  resources:
   - featureflags
   verbs:
   - create
@@ -27,6 +53,32 @@ rules:
   - cache.openfeature.dev
   resources:
   - featureflags/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - cache.openfeature.dev
+  resources:
+  - openfeatures
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cache.openfeature.dev
+  resources:
+  - openfeatures/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - cache.openfeature.dev
+  resources:
+  - openfeatures/status
   verbs:
   - get
   - patch

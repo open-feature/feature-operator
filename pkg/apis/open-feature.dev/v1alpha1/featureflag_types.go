@@ -29,7 +29,8 @@ type FeatureFlagSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of FeatureFlag. Edit featureflag_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 // FeatureFlagStatus defines the observed state of FeatureFlag
@@ -42,6 +43,8 @@ type FeatureFlagStatus struct {
 //+kubebuilder:subresource:status
 
 // FeatureFlag is the Schema for the featureflags API
+// +kubebuilder:printcolumn:name="Feature Flag Key",type=string,JSONPath=`.spec.key`
+// +kubebuilder:printcolumn:name="Feature Flag Value",type=string,JSONPath=`.spec.value`
 type FeatureFlag struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

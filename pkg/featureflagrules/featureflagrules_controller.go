@@ -14,49 +14,50 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package controllers
+package featureflagrules
 
 import (
 	"context"
+	cachev1alpha1 "github.com/open-feature/feature-operator/pkg/apis/open-feature.dev/v1alpha1"
+	"github.com/open-feature/feature-operator/pkg/common"
+	"k8s.io/client-go/tools/record"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/log"
-
-	cachev1alpha1 "github.com/open-feature/feature-operator/api/v1alpha1"
 )
 
-// FeatureFlagReconciler reconciles a FeatureFlag object
-type FeatureFlagReconciler struct {
+// FeatureFlagRulesReconciler reconciles a FeatureFlagRules object
+type FeatureFlagRulesReconciler struct {
 	client.Client
-	Scheme *runtime.Scheme
+	Scheme   *runtime.Scheme
+	Recorder record.EventRecorder
 }
 
-//+kubebuilder:rbac:groups=cache.openfeature.dev,resources=featureflags,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=cache.openfeature.dev,resources=featureflags/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=cache.openfeature.dev,resources=featureflags/finalizers,verbs=update
+//+kubebuilder:rbac:groups=cache.openfeature.dev,resources=featureflagrules,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=cache.openfeature.dev,resources=featureflagrules/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=cache.openfeature.dev,resources=featureflagrules/finalizers,verbs=update
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
 // TODO(user): Modify the Reconcile function to compare the state specified by
-// the FeatureFlag object against the actual cluster state, and then
+// the FeatureFlagRules object against the actual cluster state, and then
 // perform operations to make the cluster state reflect the state specified by
 // the user.
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.11.0/pkg/reconcile
-func (r *FeatureFlagReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = log.FromContext(ctx)
+func (r *FeatureFlagRulesReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	log := common.InitLog(req, "Feature Flag Rules Controller", "featureflagrules-controller")
 
-	// TODO(user): your logic here
+	log.Info("Log Line")
 
 	return ctrl.Result{}, nil
 }
 
 // SetupWithManager sets up the controller with the Manager.
-func (r *FeatureFlagReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *FeatureFlagRulesReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&cachev1alpha1.FeatureFlag{}).
+		For(&cachev1alpha1.FeatureFlagRules{}).
 		Complete(r)
 }

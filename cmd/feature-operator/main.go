@@ -18,6 +18,11 @@ package main
 
 import (
 	"flag"
+	cachev1alpha1 "github.com/open-feature/feature-operator/pkg/apis/open-feature.dev/v1alpha1"
+	"github.com/open-feature/feature-operator/pkg/common"
+	"github.com/open-feature/feature-operator/pkg/featureflag"
+	"github.com/open-feature/feature-operator/pkg/featureflagrules"
+	"github.com/open-feature/feature-operator/pkg/openfeature"
 	"os"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
@@ -30,9 +35,6 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
-
-	cachev1alpha1 "github.com/open-feature/feature-operator/api/v1alpha1"
-	"github.com/open-feature/feature-operator/controllers"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -78,11 +80,28 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.FeatureFlagReconciler{
-		Client: mgr.GetClient(),
-		Scheme: mgr.GetScheme(),
+	if err = (&featureflag.FeatureFlagReconciler{
+		Client:   mgr.GetClient(),
+		Scheme:   mgr.GetScheme(),
+		Recorder: mgr.GetEventRecorderFor(common.CONTROLLER_FEATUREFLAG_NAME),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "FeatureFlag")
+		setupLog.Error(err, "unable to create controller", "controller", common.CONTROLLER_FEATUREFLAG_NAME)
+		os.Exit(1)
+	}
+	if err = (&featureflagrules.FeatureFlagRulesReconciler{
+		Client:   mgr.GetClient(),
+		Scheme:   mgr.GetScheme(),
+		Recorder: mgr.GetEventRecorderFor(common.CONTROLLER_FEATUREFLAGRULE_NAME),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", common.CONTROLLER_FEATUREFLAGRULE_NAME)
+		os.Exit(1)
+	}
+	if err = (&openfeature.OpenFeatureReconciler{
+		Client:   mgr.GetClient(),
+		Scheme:   mgr.GetScheme(),
+		Recorder: mgr.GetEventRecorderFor(common.CONTROLLER_OPENFEATURE_NAME),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", common.CONTROLLER_OPENFEATURE_NAME)
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder

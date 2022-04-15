@@ -1,0 +1,24 @@
+# permissions for end users to edit openfeatures.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: openfeature-editor-role
+rules:
+- apiGroups:
+  - cache.openfeature.dev
+  resources:
+  - openfeatures
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cache.openfeature.dev
+  resources:
+  - openfeatures/status
+  verbs:
+  - get
