@@ -1,0 +1,8 @@
+apiVersion: openfeature.dev/v1alpha1
+kind: OpenFeature
+metadata:
+  name: openfeature-sample
+spec:
+  image: "nginx"
+  version: "latest"
+  replicas: 1 

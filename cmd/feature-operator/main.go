@@ -20,9 +20,9 @@ import (
 	"flag"
 	cachev1alpha1 "github.com/open-feature/feature-operator/pkg/apis/open-feature.dev/v1alpha1"
 	"github.com/open-feature/feature-operator/pkg/common"
-	"github.com/open-feature/feature-operator/pkg/featureflag"
-	"github.com/open-feature/feature-operator/pkg/featureflagrules"
-	"github.com/open-feature/feature-operator/pkg/openfeature"
+	"github.com/open-feature/feature-operator/pkg/controller/featureflag"
+	"github.com/open-feature/feature-operator/pkg/controller/featureflagrules"
+	"github.com/open-feature/feature-operator/pkg/controller/openfeature"
 	"os"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)

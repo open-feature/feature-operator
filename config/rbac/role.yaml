@@ -6,7 +6,7 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - cache.openfeature.dev
+  - openfeature.dev
   resources:
   - featureflagrules
   verbs:
@@ -18,13 +18,13 @@ rules:
   - update
   - watch
 - apiGroups:
-  - cache.openfeature.dev
+  - openfeature.dev
   resources:
   - featureflagrules/finalizers
   verbs:
   - update
 - apiGroups:
-  - cache.openfeature.dev
+  - openfeature.dev
   resources:
   - featureflagrules/status
   verbs:
@@ -32,7 +32,7 @@ rules:
   - patch
   - update
 - apiGroups:
-  - cache.openfeature.dev
+  - openfeature.dev
   resources:
   - featureflags
   verbs:
@@ -44,13 +44,13 @@ rules:
   - update
   - watch
 - apiGroups:
-  - cache.openfeature.dev
+  - openfeature.dev
   resources:
   - featureflags/finalizers
   verbs:
   - update
 - apiGroups:
-  - cache.openfeature.dev
+  - openfeature.dev
   resources:
   - featureflags/status
   verbs:
@@ -58,7 +58,7 @@ rules:
   - patch
   - update
 - apiGroups:
-  - cache.openfeature.dev
+  - openfeature.dev
   resources:
   - openfeatures
   verbs:
@@ -70,13 +70,13 @@ rules:
   - update
   - watch
 - apiGroups:
-  - cache.openfeature.dev
+  - openfeature.dev
   resources:
   - openfeatures/finalizers
   verbs:
   - update
 - apiGroups:
-  - cache.openfeature.dev
+  - openfeature.dev
   resources:
   - openfeatures/status
   verbs:

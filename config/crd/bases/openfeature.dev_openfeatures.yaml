@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: openfeatures.cache.openfeature.dev
+  name: openfeatures.openfeature.dev
 spec:
-  group: cache.openfeature.dev
+  group: openfeature.dev
   names:
     kind: OpenFeature
     listKind: OpenFeatureList

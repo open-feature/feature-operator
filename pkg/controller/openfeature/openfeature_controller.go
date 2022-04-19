@@ -22,13 +22,14 @@ import (
 	"github.com/go-logr/logr"
 	featurev1 "github.com/open-feature/feature-operator/pkg/apis/open-feature.dev/v1alpha1"
 	"github.com/open-feature/feature-operator/pkg/common"
+	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
-	"reflect"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"time"
 )
 
 // OpenFeatureReconciler reconciles a OpenFeature object
@@ -39,9 +40,9 @@ type OpenFeatureReconciler struct {
 	Log      logr.Logger
 }
 
-//+kubebuilder:rbac:groups=cache.openfeature.dev,resources=openfeatures,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=cache.openfeature.dev,resources=openfeatures/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=cache.openfeature.dev,resources=openfeatures/finalizers,verbs=update
+//+kubebuilder:rbac:groups=openfeature.dev,resources=openfeatures,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=openfeature.dev,resources=openfeatures/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=openfeature.dev,resources=openfeatures/finalizers,verbs=update
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -66,48 +67,39 @@ func (r *OpenFeatureReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		return ctrl.Result{}, err
 	}
 
-	podList, err := r.podList(ctx, instance)
-	if err != nil {
-		r.Log.Error(err, "Could not list pods")
+	created, err := r.reconcileDeployment(instance, ctx)
+	if created {
+		return ctrl.Result{}, nil
+	} else if err != nil {
+		r.Log.Error(err, "Failed to reconcile Deployment")
+		return ctrl.Result{RequeueAfter: 10 * time.Second}, err
 	}
 
-	// Update status.Nodes if needed
-	if !reflect.DeepEqual(podList, instance.Status.Pods) {
-		instance.Status.Pods = podList
-		err := r.Status().Update(ctx, instance)
-		if err != nil {
-			r.Log.Error(err, fmt.Sprintf("Failed to update %s status", common.CRD_OPENFEATURE_NAME))
-			return ctrl.Result{}, err
-		}
+	created, err = r.reconcileService(instance, ctx)
+	if created {
+		return ctrl.Result{}, nil
+	} else if err != nil {
+		r.Log.Error(err, "Failed to reconcile Service")
+		return ctrl.Result{RequeueAfter: 10 * time.Second}, err
 	}
 
-	return ctrl.Result{}, nil
+	created, err = r.reconcileServiceAccount(instance, ctx)
+	if created {
+		return ctrl.Result{}, nil
+	} else if err != nil {
+		r.Log.Error(err, "Failed to reconcile ServiceAccount")
+		return ctrl.Result{RequeueAfter: 10 * time.Second}, err
+	}
+
+	return ctrl.Result{RequeueAfter: 60 * time.Second}, nil
 }
 
 // SetupWithManager sets up the controller with the Manager.
 func (r *OpenFeatureReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&featurev1.OpenFeature{}).
+		Owns(&appsv1.Deployment{}).
+		Owns(&corev1.Service{}).
+		Owns(&corev1.ServiceAccount{}).
 		Complete(r)
-}
-
-func (r *OpenFeatureReconciler) podList(ctx context.Context, feature *featurev1.OpenFeature) ([]string, error) {
-	var podNames []string
-	labels := map[string]string{"app": common.FLAG_API_DEPLOYMENT_NAME, "openfeature_cr": feature.Name}
-
-	podList := &corev1.PodList{}
-	listOpts := []client.ListOption{
-		client.InNamespace(feature.Namespace),
-		client.MatchingLabels(labels),
-	}
-	if err := r.List(ctx, podList, listOpts...); err != nil {
-		r.Log.Error(err, "Failed to list pods", common.CRD_OPENFEATURE_NAME+".Namespace", feature.Namespace, common.CRD_OPENFEATURE_NAME+".Name", feature.Name)
-		return nil, err
-	}
-
-	for _, pod := range podList.Items {
-		podNames = append(podNames, pod.Name)
-	}
-
-	return podNames, nil
 }

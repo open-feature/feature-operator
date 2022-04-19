@@ -34,7 +34,7 @@ type OpenFeatureSpec struct {
 	// Prometheus Operator knows what version of Prometheus is being
 	// configured.
 	// +kubebuilder:default=ghcr.io/open-feature/feature-operator
-	Image *string `json:"image,omitempty"`
+	Image string `json:"image,omitempty"`
 
 	// +kubebuilder:validation:enum=Deployment;Daemonset
 	Version string `json:"version,omitempty"`

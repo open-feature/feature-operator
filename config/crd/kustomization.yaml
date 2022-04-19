@@ -2,9 +2,9 @@
 # since it depends on service name and namespace that are out of this kustomize package.
 # It should be run by config/default
 resources:
-- bases/cache.openfeature.dev_featureflags.yaml
-- bases/cache.openfeature.dev_featureflagrules.yaml
-- bases/cache.openfeature.dev_openfeatures.yaml
+- bases/openfeature.dev_featureflags.yaml
+- bases/openfeature.dev_featureflagrules.yaml
+- bases/openfeature.dev_openfeatures.yaml
 #+kubebuilder:scaffold:crdkustomizeresource
 
 patchesStrategicMerge:

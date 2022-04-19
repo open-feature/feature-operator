@@ -11,3 +11,5 @@ const CONTROLLER_FEATUREFLAGRULE_NAME = "featureflagrule-controller"
 const FLAG_API_DEPLOYMENT_NAME = "flag-evaluation-api"
 const FLAG_API_SERVICE_NAME = "flag-evaluation-api"
 const FLAG_API_SERVICEACCOUNT_NAME = "flag-evaluation-api"
+
+const APPLIED_HASH_ANNOTATION = "openfeature.dev/last-applied-hash"
