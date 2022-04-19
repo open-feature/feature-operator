@@ -9,11 +9,7 @@ func CompareHashStructure(oldHash interface{}, newSpec interface{}) bool {
 
 	result := GetHashStructure(newSpec)
 
-	if oldHash == result {
-		return true
-	}
-
-	return false
+	return oldHash == result
 }
 
 func GetHashStructure(i interface{}) string {
