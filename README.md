@@ -1,16 +1,10 @@
 # OpenFeature Operator for Kubernetes
 
-[![Roadmap](https://img.shields.io/static/v1?label=Roadmap&message=public&color=green)](https://github.com/orgs/open-feature/projects/1)
-[![Contributing](https://img.shields.io/static/v1?label=Contributing&message=guide&color=blue)](https://github.com/open-feature/.github/blob/main/CONTRIBUTING.md)
-[![Code of
-Conduct](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/open-feature/.github/blob/main/CODE_OF_CONDUCT.md)
+> ⚠️ Discussion around potential architectures have been moved [here](https://github.com/open-feature/research/issues/1). This repo will no longer be actively maintained.
 
 The OpenFeature Operator for Kubernetes will make it easy to get started using
 OpenFeature. The operator will be responsible for attaching a feature flag
 evaluation engine sidecar process to a pod and propagating flag configurations.
-
-> :warning: **Work in progress.** This operator is a prototype which is not
-> ready for public evaluation at this time.
 
 ## Planned Architecture
 
